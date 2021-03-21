@@ -21,6 +21,7 @@
             android:id="@+id/movie_list_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="none"
             android:layout_marginStart="@dimen/margin_content_list"
             android:layout_marginEnd="@dimen/margin_content_list" />
 
