@@ -1,10 +1,8 @@
-package com.lusle.android.soon.View.Main.Setting;
+package com.lusle.android.soon.View.Main.Setting.ReleaseAlarm;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -15,19 +13,18 @@ import com.lusle.android.soon.Model.Schema.Alarm;
 import com.lusle.android.soon.Model.Source.AlarmDataLocalSource;
 import com.lusle.android.soon.R;
 import com.lusle.android.soon.Util.Util;
-import com.lusle.android.soon.View.Main.Setting.Presenter.SettingContact;
-import com.lusle.android.soon.View.Main.Setting.Presenter.SettingPresenter;
+import com.lusle.android.soon.View.BaseActivity;
+import com.lusle.android.soon.View.Main.Setting.ReleaseAlarm.Presenter.ReleaseAlarmContact;
+import com.lusle.android.soon.View.Main.Setting.ReleaseAlarm.Presenter.ReleaseAlarmPresenter;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SettingFragment extends Fragment implements SettingContact.View {
+public class ReleaseAlarmSettingActivity extends BaseActivity implements ReleaseAlarmContact.View {
 
     private Switch aSwitch;
     private RecyclerView recyclerView;
@@ -35,38 +32,22 @@ public class SettingFragment extends Fragment implements SettingContact.View {
     private LinearLayoutManager layoutManager;
     private FrameLayout emptyViewGroup;
     private LottieAnimationView emptyAnim;
-
     private boolean clickedByUser = true;
-
-    private SettingPresenter presenter;
-
-    public static SettingFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        SettingFragment fragment = new SettingFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ReleaseAlarmPresenter presenter;
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_release_alarm_setting);
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting, container, false);
-
-        presenter = new SettingPresenter();
+        presenter = new ReleaseAlarmPresenter();
         presenter.attachView(this);
         presenter.setModel(AlarmDataLocalSource.getInstance(getContext()));
 
-        aSwitch = view.findViewById(R.id.alarm_switch);
-        emptyViewGroup = view.findViewById(R.id.list_empty_view);
-        emptyAnim = view.findViewById(R.id.list_empty_anim);
-        recyclerView = view.findViewById(R.id.alarm_list_recyclerView);
+        aSwitch = findViewById(R.id.alarm_switch);
+        emptyViewGroup = findViewById(R.id.list_empty_view);
+        emptyAnim = findViewById(R.id.list_empty_anim);
+        recyclerView = findViewById(R.id.alarm_list_recyclerView);
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -76,7 +57,7 @@ public class SettingFragment extends Fragment implements SettingContact.View {
         presenter.setOnItemClickListener();
         presenter.setOnEmptyListener();
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         setAlarmSwitch();
         aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -92,8 +73,6 @@ public class SettingFragment extends Fragment implements SettingContact.View {
 
         presenter.loadItems();
         Util.runLayoutAnimation(recyclerView);
-
-        return view;
     }
 
     private void setAlarmSwitch() {
@@ -132,6 +111,11 @@ public class SettingFragment extends Fragment implements SettingContact.View {
             emptyViewGroup.setVisibility(View.GONE);
             if (emptyAnim.isAnimating()) emptyAnim.pauseAnimation();
         }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override
