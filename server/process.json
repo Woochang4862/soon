@@ -1,11 +1,15 @@
 {
     "apps" : [{
         "name" : "cron-jobs",
-        "script" : "./routes/jobs.js"
+        "script" : "./routes/jobs.js",
+        "watch": true,
+        "ignore_watch": ["node_modules", "data", "test", ".git"]
     },{
         "name" : "api-server",
         "script" : "./bin/www.js",
         "instances" : 0,
-        "exec_mode" : "cluster"
+        "exec_mode" : "cluster",
+        "watch": true,
+        "ignore_watch": ["node_modules", "data", "test", ".git"]
     }]
 }
