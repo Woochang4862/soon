@@ -29,4 +29,4 @@ last_verified: YYYY-MM-DD
 
 ## 항목
 
-(아직 없음. 2026-09-04 원인 분석에서 나온 결함은 각각 수정 타스크로 다루면서 여기에 남긴다.)
+- [`android layout` 이 같은 버전끼리 version mismatch 로 실패](android_cli_layout_version_mismatch.md) (2026-09-04, CLI 결함, 폴백 명령 포함)

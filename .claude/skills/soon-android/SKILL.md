@@ -18,10 +18,10 @@ description: Soon 안드로이드 앱(com.lusle.android.soon, ~/archive/projects
 | 빌드 스택 | AGP 8.7.3, Gradle 8.9, Kotlin 1.7.10, compileSdk/targetSdk 34, minSdk 28, JDK 17 (`/opt/homebrew/opt/openjdk@17`) |
 | 언어 | Kotlin 112 파일 + Java 45 파일 혼재 |
 | 서버 주소 | `app/src/main/java/com/lusle/android/soon/model/api/ApiClient.kt:25` 에 `http://34.229.27.130:3000` 하드코딩 |
-| 서버 상태 | **다운** (2026-09-04 실측: 모든 포트 무응답). 서버 저장소 `~/archive/projects/soon/server` |
+| 서버 상태 | **다운** (2026-09-04 실측: 모든 포트 무응답). 서버 코드는 `server/` |
 | 크래시 수집 | 없음 (Crashlytics·Sentry 미도입). 버그 근거는 logcat 뿐 |
 | 서명 키 | `~/archive/projects/soon/soon-release-key-store.jks` (릴리스 빌드 시에만) |
-| 로컬 미커밋 | `master` 가 `origin/master` 보다 2 커밋 뒤 (README 변경만) |
+| 빌드 실측 | 2026-09-04 `assembleDebug` 성공 4m33s, APK 43MB. 에뮬레이터 `Pixel_API34` 에서 J1 콜드 스타트 PASSED |
 
 서버가 죽어 있으므로 **앱 단독 실행 시 목록·검색·알림 API는 전부 실패한다.** 네트워크 관련 버그를 재현할 때는 "서버 다운 상황"과 "서버 정상 상황"을 구분해서 기록한다. 서버 정상 상황이 필요하면 `server/` 를 로컬에서 `docker-compose up` 으로 띄우고 `ApiClient.kt` 의 baseUrl 을 에뮬레이터 기준 `http://10.0.2.2:3000` 으로 잠시 바꾼다 (커밋 금지).
 
@@ -30,8 +30,9 @@ description: Soon 안드로이드 앱(com.lusle.android.soon, ~/archive/projects
 ```bash
 android --no-metrics info                 # sdk 경로 확인: ~/Library/Android/sdk
 android --no-metrics sdk list             # platform-tools, platforms;android-34, build-tools;34.0.0, emulator, system-images;android-34;google_apis;arm64-v8a 가 있어야 함
-android --no-metrics emulator list        # AVD 없으면 아래로 생성
-android --no-metrics emulator create --help
+android --no-metrics emulator list        # Pixel_API34 가 있어야 함 (2026-09-04 생성)
+# 없으면: echo no | ~/Library/Android/sdk/cmdline-tools/latest/bin/avdmanager create avd -n Pixel_API34 -k "system-images;android-34;google_apis;arm64-v8a" -d pixel_6
+# (android emulator create 는 프로필 선택 후 응답 없이 멈춘 이력이 있어 avdmanager 를 쓴다)
 ```
 
 `adb` 는 `~/Library/Android/sdk/platform-tools/adb` (PATH 에 이미 들어 있음). Android Studio 는 `/Applications/Android Studio.app`.
@@ -67,6 +68,7 @@ android --no-metrics run --apks app/build/outputs/apk/debug/app-debug.apk   # �
 2. 화면이 바뀐 뒤에는 `android layout --diff` 로 변화만 본다.
 3. WebView·애니메이션·이미지 내용을 봐야 할 때만 `android screen capture --annotate -o <png>` 를 쓰고, **PNG 를 반드시 눈으로 확인**한 뒤 `android screen resolve --screen <png> --string "tap #N"` 으로 좌표를 얻는다.
 4. 입력은 `adb shell input tap X Y`, `adb shell input swipe ...`, `adb shell input text "..."` (공백은 `%s`).
+5. **알려진 버그**: CLI 1.0.16251017 에서 `layout` 이 "Server version mismatch" 로 실패한다. 그때는 `screen capture --annotate` 또는 `adb shell uiautomator dump` 로 대신한다. 상세와 명령은 `mydocs/troubleshootings/android_cli_layout_version_mismatch.md`.
 
 ```bash
 android --no-metrics layout --pretty
