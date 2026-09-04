@@ -1,14 +1,9 @@
 import cron from 'node-cron';
 import mysql from 'mysql2/promise';
 import dbconfig from '../config/database.js';
-import serviceAccount from '../public/soon-79c2e-firebase-adminsdk-h7o9r-dc2b66a1c8.json' assert {type: 'json'};
 import api_key from '../config/tmdb.js';
-import admin from 'firebase-admin';
+import { admin, getAccessToken } from '../config/firebase.js';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://soon-79c2e.firebaseio.com'
-});
 //const fcm = new FCM(serverKey);
 
 const baseUrl = 'https://api.themoviedb.org/3';
@@ -144,7 +139,7 @@ const unsubscribeInvalidToken = async function (connection) {
     console.log("response of selecting all token : " + JSON.stringify(response[0]));
 
     for (let { token } of response[0]) {
-      const { access_token } = await admin.credential.cert(serviceAccount).getAccessToken();
+      const access_token = await getAccessToken();
       const url = "https://iid.googleapis.com/iid/info/" + token + "?" + new URLSearchParams({ details: true });
       response = await fetch(url, {
         headers: {

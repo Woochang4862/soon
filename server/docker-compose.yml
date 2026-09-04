@@ -29,12 +29,16 @@ services:
     build: .
     volumes:
       - ./:/soon-server-side
+      - ./secrets:/soon-server-side/secrets:ro   # 서비스 계정 키 (저장소 밖, 읽기 전용)
     depends_on:
       - mysql
       - redis
+    env_file:
+      - .env
     environment:
       REDIS_HOST: redis
       MYSQL_HOST: mysql
+      GOOGLE_APPLICATION_CREDENTIALS: /soon-server-side/secrets/firebase-sa.json
     ports:
       - "3000:3000"
     logging:
