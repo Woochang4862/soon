@@ -1,0 +1,39 @@
+{
+  "name": "soon-server-side",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "pm2-runtime start process.json",
+    "restart": "pm2-runtime restart process.json",
+    "stop": "pm2-runtime stop process.json"
+  },
+  "dependencies": {
+    "async": "^3.2.4",
+    "axios": "^1.5.1",
+    "bluebird": "^3.5.3",
+    "cheerio": "^1.0.0-rc.12",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.0",
+    "fcm-node": "^1.6.1",
+    "filereader": "^0.10.3",
+    "firebase-admin": "^8.13.0",
+    "googleapis": "^144.0.0",
+    "morgan": "~1.9.0",
+    "mysql2": "^3.6.0",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^3.3.2",
+    "redis": "^4.6.8",
+    "swagger-jsdoc": "6.1.0",
+    "swagger-ui-express": "^5.0.0",
+    "sync-request": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/redis": "^4.0.11",
+    "@types/swagger-jsdoc": "^6.0.4"
+  }
+}

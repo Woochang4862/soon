@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    # TODO: bin/www.js > creat_db.js 에서 connection error 발생 : healthcheck 로 해결해보기
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "15m"
+        max-file: "1"
+
+  redis:
+    image: redis:latest
+    volumes:
+      - ./data/redis:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "15m"
+        max-file: "1"
+
+  node-app:
+    build: .
+    volumes:
+      - ./:/soon-server-side
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      REDIS_HOST: redis
+      MYSQL_HOST: mysql
+    ports:
+      - "3000:3000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "60m"
+        max-file: "1"
+
