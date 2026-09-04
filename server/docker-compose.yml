@@ -29,6 +29,7 @@ services:
     build: .
     volumes:
       - ./:/soon-server-side
+      - /soon-server-side/node_modules            # 이미지의 node_modules 를 사용 (호스트 것으로 덮지 않음)
       - ./secrets:/soon-server-side/secrets:ro   # 서비스 계정 키 (저장소 밖, 읽기 전용)
     depends_on:
       - mysql
