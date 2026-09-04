@@ -7,7 +7,7 @@ last_verified: 2026-09-04
 
 # GitHub 이슈 초안 — 마스터 계획 Stage 별
 
-작업지시자가 2026-09-04 이슈 등록을 승인했다. 등록 대상 저장소는 **모노레포용 GitHub 저장소**이며 아직 만들지 않았다(이름·공개 여부 결정 대기). 저장소가 생기면 아래 순서로 `gh issue create` 한다. 라벨은 `stage`, `security`, `observability`, `bug`, `test`, `release` 를 먼저 만든다.
+작업지시자가 2026-09-04 이슈 등록을 승인했다. 2026-09-04 `Woochang4862/soon` 에 #1–#15 로 등록 완료. 표의 순서가 곧 이슈 번호다. 라벨 `stage`, `security`, `observability`, `bug`, `test`, `release`, `android`, `server` 생성.
 
 | 순서 | 제목 | 라벨 | 본문 요지 |
 |---|---|---|---|
@@ -27,4 +27,4 @@ last_verified: 2026-09-04
 | 14 | [Stage 5] 환경 분리 — `BuildConfig.API_BASE_URL`, `.env.example` | stage | flavor 별 서버 주소, 하드코딩 IP 제거 |
 | 15 | [Stage 6] targetSdk·Developer Verification·Play 재배포 | release, stage | Play 요구치, 2026-09 인증, 정책 점검, 내부 테스트 트랙 |
 
-각 이슈 본문에는 `mydocs/tech/soon_maintenance_root_cause_analysis.md` 의 해당 절 링크와 종료 게이트(마스터 계획 §4)를 붙인다. 이슈가 번호를 받으면 `plans/task_{issue}.md` 를 만든다.
+각 이슈 본문에는 `mydocs/tech/soon_maintenance_root_cause_analysis.md` 의 해당 절 링크와 종료 게이트(마스터 계획 §4)를 붙인다. 착수 시 `plans/task_{issue}.md` 를 만든다. 첫 타스크는 #1.
