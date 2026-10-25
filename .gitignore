@@ -8,6 +8,8 @@
 **/google-services.json
 **/*-firebase-adminsdk-*.json
 server/public/*.json
+server/secrets/*
+!server/secrets/README.md
 
 # 서버 런타임
 server/node_modules/

@@ -1,17 +1,11 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import api_key from '../config/tmdb.js';
-import serviceAccount from '../public/soon-79c2e-firebase-adminsdk-h7o9r-dc2b66a1c8.json' assert {type: 'json'};
-import admin from 'firebase-admin';
+import { admin, getAccessToken } from '../config/firebase.js';
 import mysql from 'mysql2/promise';
 import dbconfig from '../config/database.js';
 
 const router = express.Router();
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://soon-79c2e.firebaseio.com"
-});
 
 Date.prototype.yyyymmdd = function () {
   var mm = this.getMonth() + 1;
@@ -28,7 +22,7 @@ router.get('/check/:token', async function (req, res) {
   let response;
   let data;
   try {
-    const {access_token} = await admin.credential.cert(serviceAccount).getAccessToken();
+    const access_token = await getAccessToken();
     response = await fetch(url, {
       headers: {
         'Authorization': 'Bearer ' + access_token,
@@ -60,7 +54,7 @@ router.get('/check/:token/subscribe/:topic', async function (req, res) {
   let response;
   let data;
   try {
-    const {access_token} = await admin.credential.cert(serviceAccount).getAccessToken();
+    const access_token = await getAccessToken();
     response = await fetch(url, {
       headers: {
         'Authorization': 'Bearer ' + access_token,
@@ -299,7 +293,7 @@ router.post('/reset', async function (req, res) {
   let url = "https://iid.googleapis.com/iid/info/" + req.body.token + "?" + new URLSearchParams({ details: true });
   let data;
   try {
-    const {access_token} = await admin.credential.cert(serviceAccount).getAccessToken();
+    const access_token = await getAccessToken();
     response = await fetch(url, {
       headers: {
         'Authorization': 'Bearer ' + access_token,
