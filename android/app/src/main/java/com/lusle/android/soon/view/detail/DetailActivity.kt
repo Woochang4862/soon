@@ -323,7 +323,7 @@ class DetailActivity : BaseActivity() {
 
         similarMovieLayoutManager = GridLayoutManager(this, 2)
         similarMovieRecyclerView.layoutManager = similarMovieLayoutManager
-        similarMovieRecyclerView.addItemDecoration(MovieItemDecoration(this, 2))
+        similarMovieRecyclerView.addItemDecoration(MovieItemDecoration(this, 2, numberOfNotMovieItem = 0))
 
         if (similarMovies.size == 0) {
             similarMovieListAdapter.onEmpty()
