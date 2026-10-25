@@ -12,8 +12,7 @@ class MovieItemDecoration @JvmOverloads constructor(
     activity: Activity,
     private val spanCount: Int = 2,
     spacing: Float = 12f,
-    outerMargin: Float = 25f,
-    numberOfNotMovieItem: Int = 1
+    outerMargin: Float = 25f
 ) : ItemDecoration() {
     private val spacing: Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -23,7 +22,15 @@ class MovieItemDecoration @JvmOverloads constructor(
         TypedValue.COMPLEX_UNIT_DIP,
         outerMargin, activity.resources.displayMetrics
     ).toInt()
-    private val _numberOfNotMovieItem = numberOfNotMovieItem
+
+    // 헤더·제작사 결과 같은 비영화 아이템은 목록 맨 앞에만 오고, 개수는 검색 결과에 따라 달라진다
+    private fun countLeadingNotMovieItems(adapter: RecyclerView.Adapter<*>): Int {
+        var count = 0
+        while (count < adapter.itemCount && adapter.getItemViewType(count) != R.layout.item_movie_recyclerview) {
+            count += 1
+        }
+        return count
+    }
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -35,7 +42,7 @@ class MovieItemDecoration @JvmOverloads constructor(
             return
         }
         val maxCount = parent.adapter!!.itemCount
-        val position = parent.getChildAdapterPosition(view) - _numberOfNotMovieItem
+        val position = parent.getChildAdapterPosition(view) - countLeadingNotMovieItems(parent.adapter!!)
         val column = position % spanCount
         val row = position / spanCount
         val firstRow = 0

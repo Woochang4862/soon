@@ -228,7 +228,7 @@ open class SearchActivity : BaseActivity() {
             }
         }
         searchResultRecyclerView.adapter = adapter
-        decoration = MovieItemDecoration(this, numberOfNotMovieItem = 3)
+        decoration = MovieItemDecoration(this)
         var i = 0
         while (i < searchResultRecyclerView.itemDecorationCount) {
             searchResultRecyclerView.removeItemDecorationAt(i)
