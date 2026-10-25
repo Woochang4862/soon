@@ -12,22 +12,18 @@ class MovieItemDecoration @JvmOverloads constructor(
     activity: Activity,
     private val spanCount: Int = 2,
     spacing: Float = 12f,
-    outerMargin: Float = 25f
+    outerMargin: Float = 25f,
+    numberOfNotMovieItem: Int = 1
 ) : ItemDecoration() {
-    private val spacing: Int
-    private val outerMargin: Int
-    private var numberOfNotMovieItem = 0
-
-    init {
-        this.spacing = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            spacing, activity.resources.displayMetrics
-        ).toInt()
-        this.outerMargin = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            outerMargin, activity.resources.displayMetrics
-        ).toInt()
-    }
+    private val spacing: Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        spacing, activity.resources.displayMetrics
+    ).toInt()
+    private val outerMargin: Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        outerMargin, activity.resources.displayMetrics
+    ).toInt()
+    private val _numberOfNotMovieItem = numberOfNotMovieItem
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -36,11 +32,10 @@ class MovieItemDecoration @JvmOverloads constructor(
         state: RecyclerView.State
     ) {
         if (parent.adapter!!.getItemViewType(parent.getChildAdapterPosition(view)) != R.layout.item_movie_recyclerview) {
-            numberOfNotMovieItem += 1
             return
         }
         val maxCount = parent.adapter!!.itemCount
-        val position = parent.getChildAdapterPosition(view) - numberOfNotMovieItem
+        val position = parent.getChildAdapterPosition(view) - _numberOfNotMovieItem
         val column = position % spanCount
         val row = position / spanCount
         val firstRow = 0
