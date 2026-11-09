@@ -17,6 +17,7 @@ import com.lusle.android.soon.model.source.RegionCodeRepository
 import com.lusle.android.soon.view.movie_list.MovieListActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.lusle.android.soon.util.refreshError
 
 class CompanyListActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class CompanyListActivity : AppCompatActivity() {
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var adapter: CompanyPagedListAdapter
     private var query: String? = null
+    private var shownError: Throwable? = null
 
     private var retryNumber = 0
     private val MAX_RETRY_NUM = 5
@@ -47,6 +49,7 @@ class CompanyListActivity : AppCompatActivity() {
             startActivity(intent)
         }
         companyListRecyclerView.adapter = adapter
+        observeLoadError()
 
         query = intent.getStringExtra("query")
 
@@ -63,29 +66,40 @@ class CompanyListActivity : AppCompatActivity() {
     }
 
     private fun load(query: String) {
-        try {
-            lifecycleScope.launch {
-                viewModel.getFlow(query).collectLatest {
-                    adapter.submitData(it)
-                }
+        // 로드 실패는 예외로 던져지지 않고 LoadState.Error 로 온다(#5). 오류 처리는 observeLoadError 에서 한다
+        lifecycleScope.launch {
+            viewModel.getFlow(query).collectLatest {
+                adapter.submitData(it)
             }
-        } catch (e:Exception){
-            ErrorReporter.report(e)
-            Log.d(TAG, "load: ")
-            AlertDialog.Builder(this)
-                .setMessage("제작사 정보를 불러오는 데 문제가 생겼습니다.\n다시 시도하시겠습니까?")
-                .setPositiveButton("제시도"){dialogInterface, i->
-                    if (retryNumber <= MAX_RETRY_NUM) {
-                        retryNumber += 1
-                        load(query)
-                    }
-                    retryNumber = 0
-                }
-                .setNegativeButton("아니요") {dialogInterface, i->
-                    finish()
-                }
-                .show()
         }
+    }
+
+    private fun observeLoadError() {
+        adapter.addLoadStateListener { loadStates ->
+            val error = loadStates.refreshError() ?: return@addLoadStateListener
+            if (error === shownError) return@addLoadStateListener  // 같은 실패로 대화상자를 여러 번 띄우지 않는다
+            shownError = error
+            // 원인 예외는 PagingSource 가 이미 ErrorReporter 로 보냈다. 여기서는 화면 맥락만 남긴다
+            Log.w(TAG, "company list load failed: query=$query", error)
+            showRetryDialog()
+        }
+    }
+
+    private fun showRetryDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("제작사 정보를 불러오는 데 문제가 생겼습니다.\n다시 시도하시겠습니까?")
+            .setPositiveButton("제시도") { dialogInterface, i ->
+                if (retryNumber <= MAX_RETRY_NUM) {
+                    retryNumber += 1
+                    adapter.retry()
+                }
+                retryNumber = 0
+            }
+            .setNegativeButton("아니요") { dialogInterface, i ->
+                finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     companion object {
