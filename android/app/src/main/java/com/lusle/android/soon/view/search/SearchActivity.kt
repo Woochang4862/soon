@@ -36,6 +36,7 @@ import com.lusle.android.soon.adapter.SearchResultAdapter
 import com.lusle.android.soon.view.company_list.CompanyListActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.lusle.android.soon.util.refreshError
 import kotlin.math.max
 
 open class SearchActivity : BaseActivity() {
@@ -57,6 +58,7 @@ open class SearchActivity : BaseActivity() {
     private lateinit var decoration: MovieItemDecoration
 
     private lateinit var adapter: SearchResultAdapter
+    private var shownError: Throwable? = null
     private var revealX = 0
     private var revealY = 0
 
@@ -137,19 +139,14 @@ open class SearchActivity : BaseActivity() {
                     suggestions.saveRecentQuery(s, null)
                     searchView.clearFocus()
                     viewModel.query.value = s
-                    try {
-                        lifecycleScope.launch {
-                            Log.d(TAG, "onQueryTextSubmit: $s")
-                            clearRecyclerViewOption()
-                            viewModel.clearFlow()
-                            viewModel.flow.collectLatest {
-                                adapter.submitData(it)
-                            }
+                    // 검색 실패는 예외로 던져지지 않고 LoadState.Error 로 온다(#5). 처리는 addLoadStateListener 에서 한다
+                    lifecycleScope.launch {
+                        Log.d(TAG, "onQueryTextSubmit: $s")
+                        clearRecyclerViewOption()
+                        viewModel.clearFlow()
+                        viewModel.flow.collectLatest {
+                            adapter.submitData(it)
                         }
-                    } catch (e: Exception) {
-                        ErrorReporter.report(e)
-                        Log.d(TAG, "onQueryTextSubmit: search error!\n${e.stackTrace}")
-                        adapter.onEmpty()
                     }
                 }
                 return true
@@ -219,6 +216,15 @@ open class SearchActivity : BaseActivity() {
             }
         )
         adapter.addLoadStateListener { loadState ->
+            loadState.refreshError()?.let { error ->
+                if (error !== shownError) {
+                    shownError = error
+                    // 원인 예외는 PagingSource 가 이미 ErrorReporter 로 보냈다. 여기서는 화면 맥락만 남긴다
+                    Log.w(TAG, "search failed: query=${viewModel.query.value}", error)
+                }
+                adapter.onEmpty()
+                return@addLoadStateListener
+            }
             adapter.onNotEmpty()
             adapter.let {
                 Log.d(ThisMonthMovieFragment.TAG, "onLoadStateListener: $loadState")
