@@ -1,5 +1,6 @@
 package com.lusle.android.soon.util.CountryPickerDialog;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.content.Context;
 import android.util.Log;
 
@@ -129,11 +130,11 @@ public class CCPCountry implements Comparable<CCPCountry> {
             }
             loadedLibraryMasterListLanguage = language;
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         } finally {
 
         }

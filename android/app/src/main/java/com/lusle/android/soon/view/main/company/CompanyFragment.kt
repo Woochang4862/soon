@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.company
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -119,7 +120,7 @@ class CompanyFragment : Fragment() {
             })
             movieList.adapter = movieAdapter*/
         } catch (e: IllegalStateException) {
-            e.printStackTrace()
+            ErrorReporter.report(e)
         }
         // MovieEnd
 
@@ -150,14 +151,14 @@ class CompanyFragment : Fragment() {
                                         }
                                     },
                                     {
-                                        it.printStackTrace()
+                                        ErrorReporter.report(it)
                                         isLoading = false
                                         movieAdapter.onEmpty()
                                         isLastPage = true
                                     }
                             )
                 } catch (e: IllegalStateException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                 }
             }
         }*/
@@ -212,11 +213,11 @@ class CompanyFragment : Fragment() {
                                     {
                                         playShimmer(false)
                                         showErrorToast()
-                                        it.printStackTrace()
+                                        ErrorReporter.report(it)
                                     }
                             )
                 } catch (e: IllegalStateException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                 }*//*
             }
         }*/
@@ -259,11 +260,11 @@ class CompanyFragment : Fragment() {
                                     {
                                         playShimmer(false)
                                         showErrorToast()
-                                        it.printStackTrace()
+                                        ErrorReporter.report(it)
                                     }
                             )
                 } catch (e:IllegalStateException){
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                 }*//*
             }
         }*/

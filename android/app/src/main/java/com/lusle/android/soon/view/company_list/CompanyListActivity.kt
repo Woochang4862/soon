@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.company_list
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -69,7 +70,7 @@ class CompanyListActivity : AppCompatActivity() {
                 }
             }
         } catch (e:Exception){
-            e.printStackTrace()
+            ErrorReporter.report(e)
             Log.d(TAG, "load: ")
             AlertDialog.Builder(this)
                 .setMessage("제작사 정보를 불러오는 데 문제가 생겼습니다.\n다시 시도하시겠습니까?")

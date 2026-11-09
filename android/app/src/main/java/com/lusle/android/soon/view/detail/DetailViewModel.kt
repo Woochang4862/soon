@@ -13,22 +13,22 @@ import kotlinx.coroutines.withContext
 
 class MovieDetailNotFoundException(private val e: Exception) : Exception(e) {
     override val message: String
-        get() = "영화 상세정보를 불러오지 못했습니다\n${e.stackTrace}"
+        get() = "영화 상세정보를 불러오지 못했습니다: ${e.message}"
 }
 
 class CreditsNotFoundException(private val e: Exception) : Exception(e) {
     override val message: String
-        get() = "영화 인물 정보를 불러올 수 없습니다\n${e.stackTrace}"
+        get() = "영화 인물 정보를 불러올 수 없습니다: ${e.message}"
 }
 
 class WatchProviderNotFoundException(private val e: Exception) : Exception(e) {
     override val message: String
-        get() = "공급사 정보를 불러올 수 없습니다\n${e.stackTrace}"
+        get() = "공급사 정보를 불러올 수 없습니다: ${e.message}"
 }
 
 class SimilarMovieNotFoundException(private val e: Exception) : Exception(e) {
     override val message: String
-        get() = "유사영화 정보를 불러올 수 없습니다\n${e.stackTrace}"
+        get() = "유사영화 정보를 불러올 수 없습니다: ${e.message}"
 }
 
 class DetailViewModel(private val regionCodeRepository: RegionCodeRepository) : ViewModel() {

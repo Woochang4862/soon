@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,7 +42,7 @@ class CompanyAlarmViewHolder(itemView: View, private val onCheckedChangeListener
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            ErrorReporter.report(e)
             companyAlarmActive.isEnabled = false
         }
         companyAlarmActive.setOnCheckedChangeListener { view, isChecked ->

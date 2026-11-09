@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.alarm
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
@@ -56,7 +57,7 @@ class AlarmService : Service() {
                     val date = SimpleDateFormat("yyyy-MM-dd").parse(alarm.movie.releaseDate)
                     date?.let{releaseDate!!.time = date} ?: run {releaseDate=null}
                 } catch (e: ParseException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                     releaseDate = null
                 }
 

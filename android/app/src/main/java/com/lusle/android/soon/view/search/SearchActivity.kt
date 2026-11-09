@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.search
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.SearchManager
@@ -146,7 +147,7 @@ open class SearchActivity : BaseActivity() {
                             }
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        ErrorReporter.report(e)
                         Log.d(TAG, "onQueryTextSubmit: search error!\n${e.stackTrace}")
                         adapter.onEmpty()
                     }

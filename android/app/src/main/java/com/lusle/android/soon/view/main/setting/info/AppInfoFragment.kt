@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.setting.info
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +23,7 @@ class AppInfoFragment : Fragment() {
             val version = pInfo.versionName
             appVersion.text = "버전 $version"
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            ErrorReporter.report(e)
             appVersion.visibility = View.GONE
         }
     }

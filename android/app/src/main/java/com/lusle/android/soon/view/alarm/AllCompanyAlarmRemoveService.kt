@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.alarm
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -43,7 +44,7 @@ class AllCompanyAlarmRemoveService : Service() {
                 ApiClient.retrofit.create(APIInterface::class.java).removeCompanyAlarm(body).enqueue(object : Callback<ResponseBody?> {
                     override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {}
                     override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                        t.printStackTrace()
+                        ErrorReporter.report(t)
                     }
                 })
             }

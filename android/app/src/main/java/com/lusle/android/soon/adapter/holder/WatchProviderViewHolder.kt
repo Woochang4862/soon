@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.content.Intent
 import android.net.Uri
 import android.view.View
@@ -43,7 +44,7 @@ class WatchProviderViewHolder(itemView: View, private val onClickListener: OnIte
                     }
 
                     override fun onError(e: Exception?) {
-                        e?.printStackTrace()
+                        ErrorReporter.report(e)
                         altTextView.visibility = View.VISIBLE
                         imageView.visibility = View.GONE
                         altTextView.text = watchProvider.providerName

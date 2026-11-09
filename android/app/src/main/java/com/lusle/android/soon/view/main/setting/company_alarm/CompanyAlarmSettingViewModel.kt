@@ -131,15 +131,15 @@ class CompanyAlarmSettingViewModel(private val favoriteCompanyRepository: Favori
 
 }
 
-class SubscribeCompanyException(private val e: Exception) : Exception() {
+class SubscribeCompanyException(private val e: Exception) : Exception(e) {
     override val message: String?
-        get() = "제작사를 구독하는 과정에서 문제가 생겼습니다\n${e.stackTrace}"
+        get() = "제작사를 구독하는 과정에서 문제가 생겼습니다: ${e.message}"
 
 }
 
-class UnsubscribeCompanyException(private val e: Exception) : Exception() {
+class UnsubscribeCompanyException(private val e: Exception) : Exception(e) {
     override val message: String?
-        get() = "제작사를 구독하는 과정에서 문제가 생겼습니다\n${e.stackTrace}"
+        get() = "제작사 구독을 해제하는 과정에서 문제가 생겼습니다: ${e.message}"
 
 }
 

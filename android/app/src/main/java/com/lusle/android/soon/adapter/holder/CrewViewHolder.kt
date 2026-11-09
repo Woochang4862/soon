@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,7 +33,7 @@ class CrewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     }
 
                     override fun onError(e: Exception?) {
-                        e?.printStackTrace()
+                        ErrorReporter.report(e)
                         altText.visibility = View.VISIBLE
                         profileImage.visibility = View.GONE
                         altText.text = crew.name[0].toString()

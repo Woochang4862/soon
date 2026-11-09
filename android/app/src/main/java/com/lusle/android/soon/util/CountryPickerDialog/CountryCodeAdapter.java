@@ -1,5 +1,6 @@
 package com.lusle.android.soon.util.CountryPickerDialog;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.app.Dialog;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
@@ -240,7 +241,7 @@ class CountryCodeAdapter extends RecyclerView.Adapter<CountryCodeAdapter.Country
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorReporter.report(e);
             }
         }
 

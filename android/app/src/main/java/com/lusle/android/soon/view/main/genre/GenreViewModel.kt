@@ -29,5 +29,5 @@ class GenreViewModel(private val regionCodeRepository: RegionCodeRepository) : V
 
 class GenreNotFoundException(private val e: Exception) : Exception(e) {
     override val message: String
-        get() = "장르를 불러오는 데 문제가 생겼습니다\n${e.stackTrace}"
+        get() = "장르를 불러오는 데 문제가 생겼습니다: ${e.message}"
 }

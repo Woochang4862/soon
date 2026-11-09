@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.setting.company_alarm
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -174,13 +175,13 @@ class CompanyAlarmSettingFragment : Fragment() {
                         viewModel.setAlarmSwitch(isChecked)
                         load()
                     } catch (e: SubscribeCompanyException) {
-                        e.printStackTrace()
+                        ErrorReporter.report(e)
                         showErrorSnackBar(SUBSCRIBE)
                         clickedByUser = false
                         view.isChecked = !isChecked
                         clickedByUser = true
                     } catch (e: UnsubscribeCompanyException) {
-                        e.printStackTrace()
+                        ErrorReporter.report(e)
                         showErrorSnackBar(UNSUBSCRIBE)
                         clickedByUser = false
                         view.isChecked = !isChecked
@@ -205,10 +206,10 @@ class CompanyAlarmSettingFragment : Fragment() {
                             viewModel.unsubscribeCompanyAlarm(company)
                         }
                     } catch (e: SubscribeCompanyException) {
-                        e.printStackTrace()
+                        ErrorReporter.report(e)
                         showErrorSnackBar(SUBSCRIBE)
                     } catch (e: UnsubscribeCompanyException) {
-                        e.printStackTrace()
+                        ErrorReporter.report(e)
                         showErrorSnackBar(UNSUBSCRIBE)
                     }
                 }
@@ -248,13 +249,13 @@ class CompanyAlarmSettingFragment : Fragment() {
                     loadFavoriteCompany()
                     checkAllIsChecked()
                 } catch (e: TokenNotFoundException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                     showErrorSnackBar(TOKEN)
                 } catch (e: SubscribedTopicsNotFoundException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                     showErrorSnackBar(TOPICS)
                 } catch (e: CompanyNotFoundException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                     showErrorSnackBar(COMPANY)
                 }
                 companyLoadState.value = false

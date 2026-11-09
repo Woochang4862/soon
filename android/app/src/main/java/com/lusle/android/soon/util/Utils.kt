@@ -13,7 +13,7 @@ object Utils {
             val count = day - tday
             count.toInt() + 1
         } catch (e: Exception) {
-            e.printStackTrace()
+            ErrorReporter.report(e)
             -1
         }
     }

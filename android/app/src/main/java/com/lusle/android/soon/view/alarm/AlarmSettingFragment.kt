@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.alarm
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -261,7 +262,7 @@ class AlarmSettingFragment : Fragment(), OnDateSetListener, OnTimeSetListener,
                         }
                     }
                 } catch (e: ParseException) {
-                    e.printStackTrace()
+                    ErrorReporter.report(e)
                 }
             }
         }

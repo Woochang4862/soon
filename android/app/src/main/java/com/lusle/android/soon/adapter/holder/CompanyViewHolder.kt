@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
@@ -36,7 +37,7 @@ class CompanyViewHolder(itemView: View, private val onItemClickListener: OnItemC
                     }
 
                     override fun onError(e: Exception?) {
-                        e?.printStackTrace()
+                        ErrorReporter.report(e)
                         altText.visibility = VISIBLE
                         imageView.visibility = GONE
                         altText.text = company.name[0].toString()
