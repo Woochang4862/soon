@@ -18,6 +18,7 @@ import com.lusle.android.soon.view.movie_list.MovieListActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.lusle.android.soon.util.refreshError
+import com.lusle.android.soon.util.RetryLimiter
 
 class CompanyListActivity : AppCompatActivity() {
 
@@ -27,8 +28,7 @@ class CompanyListActivity : AppCompatActivity() {
     private var query: String? = null
     private var shownError: Throwable? = null
 
-    private var retryNumber = 0
-    private val MAX_RETRY_NUM = 5
+    private val retryLimiter = RetryLimiter(MAX_RETRY_NUM)
 
     private val viewModel by viewModels<CompanyListViewModel> {
         CompanyListViewModelFactory(RegionCodeRepository(applicationContext))
@@ -89,11 +89,9 @@ class CompanyListActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setMessage("제작사 정보를 불러오는 데 문제가 생겼습니다.\n다시 시도하시겠습니까?")
             .setPositiveButton("제시도") { dialogInterface, i ->
-                if (retryNumber <= MAX_RETRY_NUM) {
-                    retryNumber += 1
+                if (retryLimiter.tryAcquire()) {
                     adapter.retry()
                 }
-                retryNumber = 0
             }
             .setNegativeButton("아니요") { dialogInterface, i ->
                 finish()
@@ -104,5 +102,6 @@ class CompanyListActivity : AppCompatActivity() {
 
     companion object {
         val TAG = CompanyListActivity::class.java.simpleName
+        private const val MAX_RETRY_NUM = 5
     }
 }
