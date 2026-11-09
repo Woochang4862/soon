@@ -2,7 +2,8 @@ package com.lusle.android.soon.util
 
 /**
  * 사용자가 누르는 "재시도" 횟수를 제한한다.
- * CompanyListActivity 의 대화상자 분기를 동작 변경 없이 옮겨 온 것이다(#8 재현용).
+ * 예전 코드는 조건 밖에서 카운터를 매번 0 으로 되돌려 제한이 걸리지 않았다(#8).
+ * 카운터는 로드가 성공했을 때만 reset() 으로 되돌린다.
  */
 class RetryLimiter(private val maxRetries: Int) {
 
@@ -11,13 +12,9 @@ class RetryLimiter(private val maxRetries: Int) {
 
     /** 재시도 버튼이 눌렸을 때 부른다. true 면 재시도한다. */
     fun tryAcquire(): Boolean {
-        var allowed = false
-        if (count <= maxRetries) {
-            count += 1
-            allowed = true
-        }
-        count = 0
-        return allowed
+        if (count >= maxRetries) return false
+        count += 1
+        return true
     }
 
     /** 로드가 성공했을 때 부른다. */

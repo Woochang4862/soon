@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.paging.LoadState
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -76,6 +78,9 @@ class CompanyListActivity : AppCompatActivity() {
 
     private fun observeLoadError() {
         adapter.addLoadStateListener { loadStates ->
+            if (loadStates.refresh is LoadState.NotLoading) {
+                retryLimiter.reset()  // 성공했을 때만 재시도 횟수를 되돌린다(#8)
+            }
             val error = loadStates.refreshError() ?: return@addLoadStateListener
             if (error === shownError) return@addLoadStateListener  // 같은 실패로 대화상자를 여러 번 띄우지 않는다
             shownError = error
@@ -88,9 +93,12 @@ class CompanyListActivity : AppCompatActivity() {
     private fun showRetryDialog() {
         AlertDialog.Builder(this)
             .setMessage("제작사 정보를 불러오는 데 문제가 생겼습니다.\n다시 시도하시겠습니까?")
-            .setPositiveButton("제시도") { dialogInterface, i ->
+            .setPositiveButton("재시도") { dialogInterface, i ->
                 if (retryLimiter.tryAcquire()) {
                     adapter.retry()
+                } else {
+                    Toast.makeText(this, "잠시 후 다시 시도해 주세요.", Toast.LENGTH_LONG).show()
+                    finish()
                 }
             }
             .setNegativeButton("아니요") { dialogInterface, i ->
