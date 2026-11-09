@@ -33,6 +33,10 @@ android {
         viewBinding true
     }
     namespace 'com.lusle.android.soon'
+    testOptions {
+        // JVM 단위 테스트에서 android.util.Log 호출이 예외 대신 기본값을 돌려주게 한다
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
