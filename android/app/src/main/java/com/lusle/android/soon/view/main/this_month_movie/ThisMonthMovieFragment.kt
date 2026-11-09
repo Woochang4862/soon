@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.this_month_movie
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -119,7 +120,7 @@ class ThisMonthMovieFragment : Fragment() {
                     adapter.submitData(pagingData)
                 }
             } catch (e:Exception){
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 adapter.onEmpty()
                 showErrorSnackBar()
             }

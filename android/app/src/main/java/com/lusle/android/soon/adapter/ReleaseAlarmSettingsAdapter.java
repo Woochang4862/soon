@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class ReleaseAlarmSettingsAdapter extends BaseRecyclerAdapter<RecyclerVie
             cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(list.get(position).getMovie().getReleaseDate()));
             releaseAlarmViewHolder.dateRemaining.setText(Utils.calDDay(cal) + "");
         } catch (ParseException e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
             releaseAlarmViewHolder.dateRemaining.setText("-");
         }
 

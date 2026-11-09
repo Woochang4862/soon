@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.movie_list
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -138,7 +139,7 @@ class MovieListFragment : Fragment() {
                     adapter.submitData(pagingData)
                 }
             } catch (e:Exception){
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 adapter.onEmpty()
                 showErrorSnackBar()
             }

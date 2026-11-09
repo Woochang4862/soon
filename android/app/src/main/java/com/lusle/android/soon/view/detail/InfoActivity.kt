@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.detail
 
+import com.lusle.android.soon.util.ErrorReporter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -80,7 +81,7 @@ class InfoActivity : AppCompatActivity() {
                                 bind(it)
                             },
                             {
-                                it.printStackTrace()
+                                ErrorReporter.report(it)
                                 //Error
                             })
         }

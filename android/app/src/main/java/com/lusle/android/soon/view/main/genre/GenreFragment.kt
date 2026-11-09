@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.genre
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -100,7 +101,7 @@ class GenreFragment : Fragment() {
             try {
                 viewModel.fetchGenre()
             } catch (e: GenreNotFoundException) {
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 adapter.onEmpty()
                 showErrorSnackBar()
             }

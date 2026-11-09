@@ -1,5 +1,6 @@
 package com.lusle.android.soon.util.CountryPickerDialog;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -482,7 +483,7 @@ public class CountryCodePicker extends RelativeLayout {
                 textView_selectedCountry.setTextSize(10);
                 textView_selectedCountry.setText(sw.toString());
             }
-            e.printStackTrace();
+            ErrorReporter.report(e);
         } finally {
             a.recycle();
         }
@@ -871,7 +872,7 @@ public class CountryCodePicker extends RelativeLayout {
                 editText_registeredCarrierNumber.setSelection(lastCursorPosition);
                 countryChangedDueToAreaCode = false;
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorReporter.report(e);
             }
         }
 
@@ -1164,7 +1165,7 @@ public class CountryCodePicker extends RelativeLayout {
         try {
             editText_registeredCarrierNumber.removeTextChangedListener(validityTextWatcher);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
 
         //initial REPORTING
@@ -1295,7 +1296,7 @@ public class CountryCodePicker extends RelativeLayout {
             dialogTypeFace = typeFace;
             dialogTypeFaceStyle = DEFAULT_UNSET;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
     }
 
@@ -1611,7 +1612,7 @@ public class CountryCodePicker extends RelativeLayout {
         try {
             code = Integer.parseInt(getDefaultCountryCode());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
         return code;
     }
@@ -1691,7 +1692,7 @@ public class CountryCodePicker extends RelativeLayout {
         try {
             code = Integer.parseInt(getSelectedCountryCode());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
         return code;
     }
@@ -2011,7 +2012,7 @@ public class CountryCodePicker extends RelativeLayout {
             textView_selectedCountry.setTypeface(typeFace);
             setDialogTypeFace(typeFace);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
     }
 
@@ -2028,7 +2029,7 @@ public class CountryCodePicker extends RelativeLayout {
                 style = DEFAULT_UNSET;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
     }
 
@@ -2043,7 +2044,7 @@ public class CountryCodePicker extends RelativeLayout {
             textView_selectedCountry.setTypeface(typeFace, style);
             setDialogTypeFace(typeFace, style);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
     }
 
@@ -2229,7 +2230,7 @@ public class CountryCodePicker extends RelativeLayout {
                 resetToDefaultCountry();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
             Log.w(TAG, "setAutoDetectCountry: Exception" + e.getMessage());
             if (loadDefaultWhenFails) {
                 resetToDefaultCountry();
@@ -2257,7 +2258,7 @@ public class CountryCodePicker extends RelativeLayout {
             setSelectedCountry(CCPCountry.getCountryForNameCodeFromLibraryMasterList(getContext(), getLanguageToApply(), simCountryISO));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
             if (loadDefaultWhenFails) {
                 resetToDefaultCountry();
             }
@@ -2285,7 +2286,7 @@ public class CountryCodePicker extends RelativeLayout {
             setSelectedCountry(CCPCountry.getCountryForNameCodeFromLibraryMasterList(getContext(), getLanguageToApply(), networkCountryISO));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
             if (loadDefaultWhenFails) {
                 resetToDefaultCountry();
             }
@@ -2312,7 +2313,7 @@ public class CountryCodePicker extends RelativeLayout {
             setSelectedCountry(CCPCountry.getCountryForNameCodeFromLibraryMasterList(getContext(), getLanguageToApply(), localeCountryISO));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
             if (loadDefaultWhenFails) {
                 resetToDefaultCountry();
             }

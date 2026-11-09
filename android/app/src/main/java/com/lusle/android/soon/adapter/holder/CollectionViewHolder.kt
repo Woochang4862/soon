@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -30,7 +31,7 @@ class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     }
 
                     override fun onError(e: Exception?) {
-                        e?.printStackTrace()
+                        ErrorReporter.report(e)
                         errorImage.visibility = View.VISIBLE
                         imageView.visibility = View.GONE
                         if(!errorImage.isAnimating) errorImage.playAnimation()

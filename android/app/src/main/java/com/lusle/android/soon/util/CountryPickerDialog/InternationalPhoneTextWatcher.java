@@ -1,5 +1,6 @@
 package com.lusle.android.soon.util.CountryPickerDialog;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.content.Context;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -168,7 +169,7 @@ public class InternationalPhoneTextWatcher implements TextWatcher {
                 Selection.setSelection(s, finalCursorPosition);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
 
     }

@@ -1,5 +1,6 @@
 package com.lusle.android.soon.model.source
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -39,7 +40,7 @@ class GenrePageKeyDataSource(private val movieApi: MovieApi, private val region:
         } catch (e: Exception) {
             // Handle errors in this block and return LoadResult.Error if it is an
             // expected error (such as a network failure).
-            e.printStackTrace()
+            ErrorReporter.report(e)
             return LoadResult.Error(e)
         }
     }

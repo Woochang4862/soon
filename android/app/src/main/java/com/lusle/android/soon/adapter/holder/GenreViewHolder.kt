@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,7 +33,7 @@ class GenreViewHolder(itemView: View, private val onItemClickListener: OnItemCli
                     }
 
                     override fun onError(e: Exception?) {
-                        e?.printStackTrace()
+                        ErrorReporter.report(e)
                         error_image.visibility = View.VISIBLE
                         genreIcon.visibility = View.GONE
                         if(!error_image.isAnimating) error_image.playAnimation()

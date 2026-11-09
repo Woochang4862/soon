@@ -1,5 +1,6 @@
 package com.lusle.android.soon.util.CountryPickerDialog;
 
+import com.lusle.android.soon.util.ErrorReporter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -116,7 +117,7 @@ public class CountryCodeDialog {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorReporter.report(e);
         }
 
         //dialog background color
@@ -201,7 +202,7 @@ public class CountryCodeDialog {
                 try {
                     fastScroller.setBubbleTextAppearance(codePicker.getFastScrollerBubbleTextAppearance());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ErrorReporter.report(e);
                 }
             }
 

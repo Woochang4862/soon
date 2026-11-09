@@ -1,5 +1,6 @@
 package com.lusle.android.soon.adapter.holder
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
@@ -104,7 +105,7 @@ class SearchMovieViewHolder(
                 } ?: run { throw Exception("function parse returns null") }
             } catch (e: Exception) {
                 bookBtn.visibility = View.GONE
-                e.printStackTrace()
+                ErrorReporter.report(e)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.detail
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -273,17 +274,17 @@ class DetailActivity : BaseActivity() {
             try {
                 viewModel.fetch()
             } catch (e: MovieDetailNotFoundException) {
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 onException()
             } catch (e: CreditsNotFoundException) {
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 castOnEmpty(true)
                 crewOnEmpty(true)
             } catch (e: WatchProviderNotFoundException) {
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 watchProviderOnEmpty(true)
             } catch (e: SimilarMovieNotFoundException) {
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 similarMovieListAdapter.onEmpty()
             }
         }

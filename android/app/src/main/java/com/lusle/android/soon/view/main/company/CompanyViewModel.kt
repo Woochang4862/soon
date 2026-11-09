@@ -1,5 +1,6 @@
 package com.lusle.android.soon.view.main.company
 
+import com.lusle.android.soon.util.ErrorReporter
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -47,7 +48,7 @@ class CompanyViewModel(private val favoriteCompanyRepository: FavoriteCompanyRep
             try{
                 token = token ?: run { FirebaseMessaging.getInstance().token.await() }
             } catch (e:Exception){
-                e.printStackTrace()
+                ErrorReporter.report(e)
                 throw TokenNotFoundException(e)
             }
             val listToRemove = startList?.filterNot { favoriteCompanyLiveData.value?.contains(it) ?: true } ?: arrayListOf()
